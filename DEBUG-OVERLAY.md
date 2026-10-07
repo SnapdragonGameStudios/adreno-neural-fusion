@@ -145,7 +145,7 @@ The following table summarizes the values in `AnfDebugOverlayMode`.
 | `ANF_DEBUG_OVERLAY_MODE_WARP_PREDICT` | Warp the previous SR output with current motion vectors | `mvValueScale` |
 | `ANF_DEBUG_OVERLAY_MODE_REPROJECT_ERROR` | Display motion-vector prediction error | `mvValueScale` |
 | `ANF_DEBUG_OVERLAY_MODE_JITTER_PLOT` | Plot recent jitter offsets | None |
-| `ANF_DEBUG_OVERLAY_MODE_JITTER_ACCUMULATE` | Check subpixel coverage and jitter signs | `accumulateJitter`, `jitterAccumAlpha`, `jitterScale` |
+| `ANF_DEBUG_OVERLAY_MODE_JITTER_ACCUMULATE` | Check subpixel coverage and jitter signs | `jitterAccumAlpha`, `jitterScale` |
 | `ANF_DEBUG_OVERLAY_MODE_SR_JITTER_SCALE` | Apply `jitterScale` to the jitter used by SR | `jitterScale` |
 
 ### Input color
@@ -339,17 +339,16 @@ Use the plot to confirm that jitter changes every frame and covers the available
 
 ### Jitter accumulate
 
-`ANF_DEBUG_OVERLAY_MODE_JITTER_ACCUMULATE` builds a persistent image from subpixel phases. It uses the sign of the jitter values after `jitterScale` to select one of four subpixel phases. The magnitude of `jitterScale` does not affect phase selection in this mode.
+`ANF_DEBUG_OVERLAY_MODE_JITTER_ACCUMULATE` builds a persistent image from subpixel phases. It uses the sign of the jitter values after `jitterScale` to select one of four subpixel phases. The magnitude of `jitterScale` does not affect phase selection in this mode. Camera motion resets the accumulation.
 
 Use a static camera and static scene for this check. Motion prevents stable accumulation in affected regions.
 
 To test the jitter signs:
 
 1. Set `mode = ANF_DEBUG_OVERLAY_MODE_JITTER_ACCUMULATE`.
-2. Set `accumulateJitter = ANF_TRUE`.
-3. Set `jitterAccumAlpha = 1.0f` for immediate feedback.
-4. Keep the camera still.
-5. Test the sign combinations below.
+2. Set `jitterAccumAlpha = 1.0f` for immediate feedback.
+3. Keep the camera still.
+4. Test the sign combinations below.
 
 | `jitterScale.x` | `jitterScale.y` | Test |
 |---:|---:|---|
@@ -475,7 +474,7 @@ If a development build keeps the overlay enabled, submit `ANF_DEBUG_OVERLAY_MODE
 
 ## Configuration reference
 
-Zero-initialize `AnfDebugOverlayConfig` and set `header.type` before use. Setting only `mode` produces a usable view for most modes. Jitter accumulate mode also requires `accumulateJitter = ANF_TRUE`. Set each control explicitly when a test depends on a specific value.
+Zero-initialize `AnfDebugOverlayConfig` and set `header.type` before use. Setting only `mode` produces a usable view for most modes. Set each control explicitly when a test depends on a specific value.
 
 | Field | Type | Starting value or range | Use |
 |---|---|---|---|
@@ -485,7 +484,6 @@ Zero-initialize `AnfDebugOverlayConfig` and set `header.type` before use. Settin
 | `mvValueScale` | `AnfFloat2` | Start with `{1.0f, 1.0f}`; typical tuning range `-2.0f` to `+2.0f` per axis | Multiplies motion-vector X and Y values in motion-vector heatmap, warp predict, and reprojection error modes. Use a negative value to test an axis-sign change. |
 | `jitterScale` | `AnfFloat2` | Start with `{1.0f, 1.0f}`; typical tuning range `-2.0f` to `+2.0f` per axis | Selects jitter signs in jitter accumulate mode and scales jitter values in SR jitter scale mode. |
 | `jitterAccumAlpha` | `float` | Valid range `0.0f` to `1.0f`; start with `0.05f`; use `1.0f` for immediate replacement | Sets the accumulation blend weight in jitter accumulate mode. Smaller values produce more gradual convergence. |
-| `accumulateJitter` | `AnfBool` | `ANF_FALSE` | Enables accumulation in jitter accumulate mode. |
 | `hudCorner` | `AnfDebugOverlayHudCorner` | `ANF_DEBUG_OVERLAY_HUD_CORNER_TOP_LEFT` | Selects the HUD corner. |
 | `hudFlipY` | `AnfBool` | `ANF_FALSE` | Flips HUD text for Y-inverted render targets. |
 | `depthInvert` | `AnfBool` | `ANF_FALSE` | Inverts depth before color mapping in depth visualization mode. |

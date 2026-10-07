@@ -1,7 +1,7 @@
 //============================================================================================================
 //
 //
-//                  Copyright (c) 2026, Qualcomm Innovation Center, Inc. All rights reserved.
+//       Copyright (c) 2026, Qualcomm Technologies, Inc. and/or its subsidiaries. All rights reserved.
 //                              SPDX-License-Identifier: BSD-3-Clause
 //
 //============================================================================================================
@@ -321,7 +321,7 @@ enum AnfDebugOverlayMode : uint32_t
     ANF_DEBUG_OVERLAY_MODE_WARP_PREDICT      = 4,  ///< Previous output warped by MVs. Shows warp geometry. Knobs: mvValueScale.
     ANF_DEBUG_OVERLAY_MODE_REPROJECT_ERROR   = 5,  ///< Warp-vs-current error heat map: blue=good MVs, red=bad. Knobs: mvValueScale.
     ANF_DEBUG_OVERLAY_MODE_JITTER_PLOT       = 6,  ///< Scatter plot of recent jitter offsets. Knobs: none.
-    ANF_DEBUG_OVERLAY_MODE_JITTER_ACCUMULATE = 7,  ///< Phase-based jitter accumulation; shows sub-pixel coverage correctness. Knobs: accumulateJitter, jitterAccumAlpha, jitterScale (sign only).
+    ANF_DEBUG_OVERLAY_MODE_JITTER_ACCUMULATE = 7,  ///< Phase-based jitter accumulation; shows sub-pixel coverage correctness. Static camera only; camera motion resets it. Knobs: jitterAccumAlpha, jitterScale (sign only).
     ANF_DEBUG_OVERLAY_MODE_SR_JITTER_SCALE   = 8,  ///< Output with jitter scaled by jitterScale before neural dispatch. Knobs: jitterScale (value).
 };
 
@@ -354,8 +354,7 @@ struct AnfDebugOverlayConfig
     AnfFloat2                mvValueScale;       ///< Per-axis multiplier on raw MV (x,y). Modes 2/4/5.
     AnfFloat2                jitterScale;        ///< Jitter sign/scale (x,y). Modes 7 (sign) and 8 (value).
     float                    jitterAccumAlpha;   ///< JITTER_ACCUMULATE blend alpha (0..1)
-    AnfBool                  accumulateJitter;   ///< JITTER_ACCUMULATE enable
-    AnfDebugOverlayHudCorner hudCorner;        ///< HUD corner position (TOP_LEFT default)
+    AnfDebugOverlayHudCorner hudCorner;          ///< HUD corner position (TOP_LEFT default)
     AnfBool                  hudFlipY;           ///< Flip HUD text for Y-inverted framebuffers
     AnfBool                  depthInvert;        ///< DEPTH_VIS: invert depth before colorizing
     uint32_t                 depthScale;         ///< DEPTH_VIS: integer depth multiplier (1-99)

@@ -1,5 +1,8 @@
 # Adreno™ Neural Fusion (ANF)
 
+| [English](./README.md) | [简体中文](./README-zh-CN.md) |
+|---|---|
+
 Mobile games are asked to do more with every generation. Players expect sharp images and smooth motion without giving up battery life, while developers have to fit the experience inside a mobile power budget.
 
 Adreno™ Neural Fusion is Qualcomm's neural rendering SDK for mobile games. It gives game teams more room to improve visual quality and displayed frame rate while keeping power use under control. The application chooses its image dimensions, rendering order, and fallback behavior. ANF reports hardware support and Vulkan requirements at runtime so the renderer can configure the correct path for each device.

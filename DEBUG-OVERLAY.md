@@ -1,5 +1,8 @@
 # Adreno™ Neural Fusion (ANF) SDK debug overlay guide
 
+| [English](./DEBUG-OVERLAY.md) | [简体中文](./DEBUG-OVERLAY-zh-CN.md) |
+|---|---|
+
 This guide explains how to enable and use the ANF debug overlay when integrating Super Resolution (SR) into an Android Vulkan renderer.
 
 The overlay displays the color, depth, motion-vector, and jitter data supplied to ANF. Some modes blend diagnostic data over the SR output. Other modes replace the displayed output with an input or derived image. The overlay runs as part of the SR dispatch and modifies the output before later application passes.

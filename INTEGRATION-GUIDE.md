@@ -1,5 +1,8 @@
 # Adreno™ Neural Fusion (ANF) SDK integration guide
 
+| [English](./INTEGRATION-GUIDE.md) | [简体中文](./INTEGRATION-GUIDE-zh-CN.md) |
+|---|---|
+
 This guide covers ANF integration into an Android Vulkan renderer.
 
 The public SDK supports two temporal techniques:
@@ -558,6 +561,10 @@ vec2 CalculateMotionVector(vec4 currentClip, vec4 previousClip)
 ```
 
 The renderer may need to flip Y or reverse direction to match its texture coordinates and ANF input convention. Check the full frame with camera-only motion, object-only motion, and disocclusion. Remove projection jitter from the motion-vector signal used by SR.
+
+### Texture mip LOD bias
+
+For SR, start with a texture mip LOD bias of `-1.0`. A negative bias selects a higher-resolution mip, which can give the upscaler more detail to work with. The best value depends on the content and the application's performance budget, so experiment with values such as `-1.0` to `-2.0` and use what works best for your application. More negative values select progressively higher-resolution mips and increase memory-bandwidth use, so measure the result on target hardware.
 
 ### Depth
 
